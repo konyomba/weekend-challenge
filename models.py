@@ -1,17 +1,10 @@
 import pandas as pd
+from mymodules import *
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
-
-data = pd.read_csv('/home/kev-man/Datasets/archive/obesity_data.csv')
-data= data.drop(columns="PhysicalActivityLevel")
-
-data_cleaned= data
-def clean_row(data):
-    data_cleaned = data.dropna()
-    return data_cleaned
 
 
 
@@ -32,4 +25,6 @@ predictions=model.predict(features_test)
 accuracy=accuracy_score(labels_test_encoded,predictions)
 
 #print(data_cleaned)
-print("Accuracy of model: ",accuracy*100,"%")
+print("Accuracy of obesity prediction model: ",accuracy*100,"%")
+#print(cleanD_data.columns)
+#print(cleanThyroid.columns)
