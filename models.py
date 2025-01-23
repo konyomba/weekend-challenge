@@ -26,5 +26,5 @@ accuracy=accuracy_score(labels_test_encoded,predictions)
 
 #print(data_cleaned)
 print("Accuracy of obesity prediction model: ",accuracy*100,"%")
-#print(cleanD_data.columns)
+print(cleanD_data.columns)
 #print(cleanThyroid.columns)
