@@ -9,12 +9,13 @@ diabetes_data = diabetes_data.drop(columns=["user_id","date","stress_level","sle
 
 thyroid_data = thyroid_data.drop(columns=["Pregnancy","Fatigue","Heart_Rate_Changes","Increased_Sweating","Sensitivity_to_Cold_or_Heat","Constipation_or_More_Bowel_Movements","Depression_or_Anxiety","Difficulty_Concentrating_or_Memory_Problems"])
 
-data= data.drop(columns="PhysicalActivityLevel")
+data= data.drop(columns=["PhysicalActivityLevel","Gender"])
 
 data_cleaned= data
 def clean_row(data):
     data_cleaned = data.dropna()
     return data_cleaned
+print(data_cleaned.columns)
 
 cleanD_data = diabetes_data
 def clean_row(diabetes_data):
