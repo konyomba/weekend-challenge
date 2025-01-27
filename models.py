@@ -15,9 +15,7 @@ labels=data_cleaned['ObesityCategory']
 features_train,features_test,labels_train,labels_test=train_test_split(features,labels,test_size=.5,random_state=42)
 
 label_encoder = LabelEncoder()
-#label_encoder.fit(['Male', 'Female'])
-#features_train['Gender'] = label_encoder.fit_transform(features_train['Gender'])
-#features_test['Gender'] = label_encoder.transform(features_test['Gender'])
+
 labels_train_encoded = label_encoder.fit_transform(labels_train)
 labels_test_encoded = label_encoder.transform(labels_test)
 
@@ -31,6 +29,12 @@ joblib.dump(model, 'obesity_prediction.pkl')
 joblib.dump(label_encoder, 'label_encoder.pkl')
 print("Label Encoder Classes:", label_encoder.classes_)  # Debugging
 print(data_cleaned.head(12))
+
+
+
+
+#test and debuging
+
 #print("Received Gender Input:", gender_input)  # Debugging
 #print(data_cleaned)
 #print("Accuracy of obesity prediction model: ",accuracy*100,"%")
