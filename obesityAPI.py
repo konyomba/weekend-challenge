@@ -31,3 +31,5 @@ def predict(input_data: ObesityInput):
 @app.get("/")
 def read_root():
     return {"API": "Obesity Prediction API!"}
+
+    
