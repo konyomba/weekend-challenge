@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-data = pd.read_csv('/home/kev-man/Datasets/archive/obesity_data.csv')
+data = pd.read_csv('/home/kev-man/Models/Datasets/archive (2)/')
 
 
 data= data.drop(columns=["PhysicalActivityLevel","Gender"])
