@@ -1,0 +1,44 @@
+
+{% extends "base.html" %}
+
+{% block title %}Obesity Prediction{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <form method="POST" class="shadow p-4 bg-dark rounded w-50">
+        {{ form.hidden_tag() }} 
+        <legend class="border-bottom mb-4 text-white text-center">Obesity Prediction</legend>
+
+        <div class="mb-2">
+            {{ form.age.label(class="form-label text-white") }}
+            {{ form.age(class="form-control") }}
+        </div>
+
+        <div class="mb-2">
+            {{ form.height.label(class="form-label text-white") }}
+            {{ form.height(class="form-control") }}
+        </div>
+
+        <div class="mb-2">
+            {{ form.weight.label(class="form-label text-white") }}
+            {{ form.weight(class="form-control") }}
+        </div>
+
+        <div class="mb-2">
+            {{ form.bmi.label(class="form-label text-white") }}
+            {{ form.bmi(class="form-control") }}
+        </div>
+
+        <div class="text-center">
+            {{ form.submit(class="btn btn-primary w-100") }}
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+{% endblock %}

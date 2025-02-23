@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+
+
+
+{% block title %}Register{% endblock %}
+
+
+{% block content %}
+<div class="content-section mt-3"style="height: 500px; margin-left:20%; margin-right:59px; opacity: 0.75;">
+    <div class="card shadow-sm p-4">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Join Today</legend>
+
+                <div class="mb-2">
+                    {{ form.username.label(class="form-label") }}
+                    {{ form.username(class="form-control") }}
+                </div>
+
+                <div class="mb-2">
+                    {{ form.Email.label(class="form-label") }}
+                    {{ form.Email(class="form-control") }}
+                </div>
+
+                <div class="mb-2">
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-control") }}
+                </div>
+
+                <div class="mb-2">
+                    {{ form.confirm_password.label(class="form-label") }}
+                    {{ form.confirm_password(class="form-control") }}
+                </div>
+            </fieldset>
+
+            <div class="d-grid">
+                {{ form.submit(class="btn btn-primary btn-lg") }}
+            </div>
+        </form>
+        <div class="border-top pt-3 text-center">
+            <small class="text-black">
+                Already have an account? <a class="ms-2" href="{{ url_for('login') }}">Login</a>
+            </small>
+        </div>
+    </div>
+   
+</div>
+
+
+{% endblock %}

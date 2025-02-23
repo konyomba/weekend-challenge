@@ -1,0 +1,31 @@
+{%extends "base.html"%}
+
+{%block title%}predictions{%endblock%}
+
+{%block content%}
+
+
+<div class="container">
+        <div class="box">
+            <h2>Obesity Prediction</h2>
+            <p>Obesity is a major health concern that increases the risk of heart disease, diabetes, and other complications.</p>
+            <a href="{{ url_for('obesity_predict') }}" class="button">Predict</a>
+        </div>
+        
+    
+
+    <div class="box">
+        <h2>Diabetes Prediction</h2>
+        <p>Diabetes is a chronic condition that affects how the body processes blood sugar, leading to serious health risks.</p>
+        <button class="button">Predict</button>
+    </div>
+
+    <div class="box">
+        <h2>Heart Disease Prediction</h2>
+        <p>Heart disease includes conditions affecting the heart and blood vessels, increasing the risk of heart attacks and strokes.</p>
+        <button class="button">Predict</button>
+    </div>
+</div>
+
+
+{%endblock%}

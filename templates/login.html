@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="content-section mt-3" style="height: 500px; margin-left:20%; margin-right:59px; opacity: 0.75;">
+    <div class="card shadow-sm p-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div id="flash-messages">
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+        
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Welcome Back</legend>
+
+                <div class="mb-2">
+                    {{ form.Email.label(class="form-label") }}
+                    {{ form.Email(class="form-control") }}
+                </div>
+
+                <div class="mb-2">
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-control") }}
+                </div>
+            </fieldset>
+
+            <div class="d-grid">
+                {{ form.submit(class="btn btn-primary btn-lg") }}
+            </div>
+        </form>
+
+        <div class="border-top pt-3 text-center">
+            <small class="text-black">
+                Don't have an account? <a class="ms-2" href="{{ url_for('register') }}">Register</a>
+            </small>
+        </div>
+    </div>
+</div>
+
+
+  
+{% endblock %}
