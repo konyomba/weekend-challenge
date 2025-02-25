@@ -2,3 +2,4 @@ __pycache__
 dbTest.py
 AptFile
 Procfile
+.env

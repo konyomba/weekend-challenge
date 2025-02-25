@@ -1,14 +1,21 @@
+from flask_bcrypt import Bcrypt
 from flask import Flask, url_for, redirect, render_template, request, flash, session
 from flask_session import Session
 from flask_wtf import CSRFProtect
 from forms import ObesityPredictionForm, RegistrationForm, LoginForm
+import os
+from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
 import redis
 import requests
-from flask_mysqldb import MySQL
+
 
 
 
 app = Flask(__name__)
+
+
+app.config['SECRET_KEY']='86cf016117fc3c20024cbece2419d4ce'
 
 # FastAPI Endpoint
 FASTAPI_URL = "http://127.0.0.1:8000/predict/"
@@ -21,18 +28,28 @@ app.config['SESSION_KEY_PREFIX'] = 'flask_session:'
 app.config['SESSION_REDIS'] = redis.Redis(host='localhost', port=6379, db=0)
 
 Session(app)
-app.config['SECRET_KEY'] = '86cf016117fc3c20024cbece2419d4ce'
-
+load_dotenv()
 
 #DB configurations
-app.config['MYSQL_HOST']='127.0.0.1'
-app.config['MYSQL_USER']='root'
-app.config['MYSQL_PASSWORD']='K3v!n254'
-app.config['MYSQL_DB']='Health'
+import os
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+
+db=SQLAlchemy(app)
+bcrypt = Bcrypt(app)
 
 
+class User(db.Model):
+    __tablename__='Users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
 
-mysql=MySQL(app)
+    def __repr__(self):
+        return f"User('{self.username}', '{self.email}')"
+
+with app.app_context():
+    db.create_all()
 
 
 @app.route('/')
@@ -87,10 +104,14 @@ def obesity_predict():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        flash(f'Account created for {form.username.data}!', 'success')
-        return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
-
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Your account has been created! You can now log in.', 'success')
+        return redirect(url_for('login'))  # Redirect to login page
+    return render_template('register.html', form=form)
+   
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
@@ -105,4 +126,4 @@ def login():
     return render_template('login.html', title='Login', form=form)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000,host='192.168.100.4')
+    app.run(debug=True, port=5000)
