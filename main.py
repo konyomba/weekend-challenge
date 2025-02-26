@@ -1,3 +1,6 @@
+#find a way to handle configuration files
+#work on loggin and signup database
+
 from flask_bcrypt import Bcrypt
 from flask import Flask, url_for, redirect, render_template, request, flash, session
 from flask_session import Session
@@ -8,14 +11,26 @@ from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 import redis
 import requests
-
+from flask_mail import Mail,Message
 
 
 
 app = Flask(__name__)
 
 
+
+
 app.config['SECRET_KEY']='86cf016117fc3c20024cbece2419d4ce'
+
+#mail automation configs
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = 'wibx kvun yjpe gdgp'
+app.config['MAIL_DEFAULT_SENDER'] = app.config['MAIL_USERNAME']
+
+mail = Mail(app)
 
 # FastAPI Endpoint
 FASTAPI_URL = "http://127.0.0.1:8000/predict/"
@@ -76,6 +91,7 @@ def predictions():
 def obesity_predict():
     form = ObesityPredictionForm()
     prediction = None
+
     if request.method == "POST" and form.validate_on_submit():
         age = request.form.get("age")
         height = request.form.get("height")
@@ -88,42 +104,77 @@ def obesity_predict():
             "Weight": float(weight),
             "BMI": float(bmi),
         }
+
         try:
             response = requests.post(FASTAPI_URL, json=input_data)
             if response.status_code == 200:
-                    prediction = response.json().get("ObesityCategory", "Unknown")
-                    flash(f"Prediction: {prediction}", "success")  # Flash message for pop-up
+                prediction = response.json().get("ObesityCategory", "Unknown")
+                flash(f"Prediction: {prediction}", "success") 
+
+                # Get the logged-in user's email from session
+                user_email = session.get("email")
+                if user_email:
+                    try:
+                        msg = Message("Your Obesity Prediction Result", recipients=[user_email])
+                        msg.body = f"Hello,\n\nYour obesity prediction result is: {prediction}\n\nThank you for using our service!"
+                        mail.send(msg)
+                        flash("Prediction result emailed successfully!", "info")
+                    except Exception as e:
+                        flash(f"Failed to send email: {str(e)}", "danger")
+                else:
+                    flash("Error: No email found for the logged-in user.", "danger")
             else:
                 flash("Error: Could not get prediction.", "danger")
         except Exception as e:
             flash(f"Request failed: {str(e)}", "danger")
             
-    return render_template("obesity_predict.html",form=form, prediction=prediction)
+    return render_template("obesity_predict.html", form=form, prediction=prediction)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
+
     if form.validate_on_submit():
+        existing_user = User.query.filter_by(email=form.email.data).first()
+        if existing_user:
+            flash('Email already registered. Please log in.', 'danger')
+            return redirect(url_for('login'))
+        if form.password.data != form.confirm_password.data:
+            flash('Passwords do not match. Please try again.', 'danger')
+            return redirect(url_for('register'))
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+
         db.session.add(new_user)
         db.session.commit()
+
         flash('Your account has been created! You can now log in.', 'success')
-        return redirect(url_for('login'))  # Redirect to login page
+        return redirect(url_for('login')) 
+
     return render_template('register.html', form=form)
-   
+
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
     form = LoginForm()
+    
     if form.validate_on_submit():
-        if form.Email.data != 'konyomba@gmail.com' or form.password.data != '1234':
+        if form.email.data != 'kevingodwin929@gmail.com' or form.password.data != '1234':
             error = 'Invalid credentials'
             flash('Invalid credentials', 'danger')
         else:
+            session['email'] = form.email.data  
             flash('You were successfully logged in', 'success')
-            return redirect(url_for('predictions'))
+            return redirect(url_for('obesity_predict'))  # Redirect to prediction page
+    
     return render_template('login.html', title='Login', form=form)
+
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
