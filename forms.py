@@ -15,7 +15,7 @@ class LoginForm(FlaskForm):
     email=StringField('Email',validators=[DataRequired(),Email()])
     password=PasswordField('Password',validators=[DataRequired()])
     remember=BooleanField('Remember Me')
-    submit=SubmitField('Login Up')
+    submit=SubmitField('Login')
 
 class ObesityPredictionForm(FlaskForm):
     age = IntegerField('Age', validators=[DataRequired(), NumberRange(min=1, max=120)])

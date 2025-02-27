@@ -1,12 +1,14 @@
-<!-- bug in this file: the form does not refresh on submission-->
-{% extends "base.html" %}
+{% extends "links.html" %}
 
 {% block title %}Obesity Prediction{% endblock %}
 
 {% block content %}
 
-<div class="d-flex justify-content-center align-items-center vh-100">
-    <form method="POST" class="shadow p-4 bg-dark rounded w-50">
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+    <form method="POST" class="shadow p-4 bg-dark rounded w-50 mb-5" 
+        
+          style="max-height: 90vh; overflow-y: auto; width: 50%; display: flex; flex-direction: column; justify-content: space-between; ">
+          
         {{ form.hidden_tag() }} 
         <legend class="border-bottom mb-4 text-white text-center">Obesity Prediction</legend>
 
@@ -31,13 +33,22 @@
         </div>
 
         <div class="text-center">
-            {{ form.submit(class="btn btn-primary w-100") }}
+            {{ form.submit(class="btn btn-primary w-100", **{'onclick': 'resetForm()'}) }}
+        </div>
+
+        <div class="mt-3 text-center">
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
         </div>
     </form>
 </div>
 
-
-
+<script>
+    function resetForm() {
+        setTimeout(() => {
+            document.querySelector("form").reset();
+        }, 100);  
+    }
+</script>
 
 
 

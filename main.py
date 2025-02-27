@@ -1,5 +1,4 @@
 #find a way to handle configuration files
-#work on loggin and signup database
 
 from flask_bcrypt import Bcrypt
 from werkzeug.security import check_password_hash
@@ -180,7 +179,9 @@ def login():
 
     return render_template('login.html', title='Login', form=form)
 
-
+@app.route('/logout')
+def logout():
+    return redirect(url_for('main_page'))
 
 
 if __name__ == "__main__":
