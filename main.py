@@ -55,6 +55,7 @@ db=SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
 
+
 class User(db.Model):
     __tablename__='Users'
     id = db.Column(db.Integer, primary_key=True)
@@ -145,7 +146,8 @@ def register():
         if form.password.data != form.confirm_password.data:
             flash('Passwords do not match. Please try again.', 'danger')
             return redirect(url_for('register'))
-        hashed_password = generate_password_hash(form.password.data)  
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+
 
         new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
 

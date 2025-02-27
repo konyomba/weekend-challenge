@@ -42,8 +42,11 @@ body{
     text-decoration: none;
     
   }
-  
-  
+  .header{
+    margin-top: 20px;
+    
+  }
+   
   .nav-bar li a:hover {
     background-color: wheat;
     
@@ -128,3 +131,6 @@ body{
 .button:hover {
     background-color: #0056b3;
 }
+
+/*services page*/
+
