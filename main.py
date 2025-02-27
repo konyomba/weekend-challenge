@@ -2,6 +2,8 @@
 #work on loggin and signup database
 
 from flask_bcrypt import Bcrypt
+from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, url_for, redirect, render_template, request, flash, session
 from flask_session import Session
 from flask_wtf import CSRFProtect
@@ -143,7 +145,8 @@ def register():
         if form.password.data != form.confirm_password.data:
             flash('Passwords do not match. Please try again.', 'danger')
             return redirect(url_for('register'))
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        hashed_password = generate_password_hash(form.password.data)  
+
         new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
 
         db.session.add(new_user)
@@ -158,20 +161,22 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    error = None
     form = LoginForm()
-    
-    if form.validate_on_submit():
-        if form.email.data != 'kevingodwin929@gmail.com' or form.password.data != '1234':
-            error = 'Invalid credentials'
-            flash('Invalid credentials', 'danger')
-        else:
-            session['email'] = form.email.data  
-            flash('You were successfully logged in', 'success')
-            return redirect(url_for('obesity_predict'))  # Redirect to prediction page
-    
-    return render_template('login.html', title='Login', form=form)
 
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
+
+        user = User.query.filter_by(email=email).first()
+
+        if user and bcrypt.check_password_hash(user.password, password):  
+            session['email'] = user.email  
+            flash('You were successfully logged in', 'success')
+            return redirect(url_for('obesity_predict'))  
+        else:
+            flash('Invalid email or password', 'danger')
+
+    return render_template('login.html', title='Login', form=form)
 
 
 
