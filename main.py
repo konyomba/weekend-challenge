@@ -1,5 +1,6 @@
 #find a way to handle configuration files
 
+
 from flask_bcrypt import Bcrypt
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -113,7 +114,7 @@ def obesity_predict():
                 prediction = response.json().get("ObesityCategory", "Unknown")
                 flash(f"Prediction: {prediction}", "success") 
 
-                # Get the logged-in user's email from session
+                
                 user_email = session.get("email")
                 if user_email:
                     try:
@@ -129,7 +130,7 @@ def obesity_predict():
                 flash("Error: Could not get prediction.", "danger")
         except Exception as e:
             flash(f"Request failed: {str(e)}", "danger")
-            
+            return redirect(url_for('obesity_predict'))
     return render_template("obesity_predict.html", form=form, prediction=prediction)
 
 
