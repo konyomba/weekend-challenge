@@ -1,6 +1,3 @@
-#find a way to handle configuration files
-
-
 from flask_bcrypt import Bcrypt
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -19,30 +16,31 @@ from flask_mail import Mail,Message
 
 app = Flask(__name__)
 
-
-
-
-app.config['SECRET_KEY']='86cf016117fc3c20024cbece2419d4ce'
-
-#mail automation configs
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
+app.config['SECRET_KEY']=os.getenv('SECRET_KEY')
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True') == 'True'
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = 'wibx kvun yjpe gdgp'
-app.config['MAIL_DEFAULT_SENDER'] = app.config['MAIL_USERNAME']
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
 
 mail = Mail(app)
 
-# FastAPI Endpoint
+
 FASTAPI_URL = "http://127.0.0.1:8000/predict/"
 
-# Session Configuration
-app.config['SESSION_TYPE'] = 'redis'
-app.config['SESSION_PERMANENT'] = False
-app.config['SESSION_USE_SIGNER'] = True
-app.config['SESSION_KEY_PREFIX'] = 'flask_session:'
-app.config['SESSION_REDIS'] = redis.Redis(host='localhost', port=6379, db=0)
+app.config['SESSION_TYPE'] = os.getenv('SESSION_TYPE', 'redis')
+app.config['SESSION_PERMANENT'] = os.getenv('SESSION_PERMANENT', 'False') == 'True'  
+app.config['SESSION_USE_SIGNER'] = os.getenv('SESSION_USE_SIGNER', 'True') == 'True'  
+app.config['SESSION_KEY_PREFIX'] = os.getenv('SESSION_KEY_PREFIX', 'flask_session:')
+
+
+app.config['SESSION_REDIS'] = redis.Redis(
+    host=os.getenv('SESSION_REDIS_HOST', 'localhost'),
+    port=int(os.getenv('SESSION_REDIS_PORT', 6379)),
+    db=int(os.getenv('SESSION_REDIS_DB', 0))
+)
+
 
 Session(app)
 load_dotenv()
