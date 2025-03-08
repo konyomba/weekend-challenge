@@ -174,7 +174,7 @@ def login():
         if user and bcrypt.check_password_hash(user.password, password):  
             session['email'] = user.email  
             flash('You were successfully logged in', 'success')
-            return redirect(url_for('obesity_predict'))  
+            return redirect(url_for('predictions'))  
         else:
             flash('Invalid email or password', 'danger')
 
