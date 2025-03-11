@@ -5,6 +5,7 @@ data = pd.read_csv('/home/kev-man/Models/Datasets/archive (2)/obesity_data.csv')
 data_d=pd.read_csv('/home/kev-man/Models/Datasets/archive (2)/diabetes_data_upload.csv')
 
 data= data.drop(columns=["PhysicalActivityLevel","Gender"])
+data_d=data_d.drop(columns=["Gender"])
 
 
 
@@ -15,7 +16,7 @@ def clean_row(data):
 
 #data preprocessing for diabetes data
 #print(data_d.isnull().sum())
-#print(data_d.columns)
+print(data_d.columns)
 
 
 

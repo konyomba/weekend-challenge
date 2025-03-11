@@ -13,7 +13,7 @@ from mymodules import *
 
 
 
-categorical_cols = ["Gender", "Polyuria", "Polydipsia", "sudden weight loss", "weakness", 
+categorical_cols = [ "Polyuria", "Polydipsia", "sudden weight loss", "weakness", 
                     "Polyphagia", "Genital thrush", "visual blurring", "Itching", "Irritability", 
                     "delayed healing", "partial paresis", "muscle stiffness", "Alopecia", "Obesity"]
 
@@ -37,11 +37,11 @@ X_train['Age'] = scaler.fit_transform(X_train[['Age']])
 X_test['Age'] = scaler.transform(X_test[['Age']])
 
 
-model = RandomForestClassifier(n_estimators=100, random_state=42)
-model.fit(X_train, y_train)
+model_diabetes = RandomForestClassifier(n_estimators=100, random_state=42)
+model_diabetes.fit(X_train, y_train)
 
 
-y_pred = model.predict(X_test)
+y_pred = model_diabetes.predict(X_test)
 
 
 print("Model Accuracy:", accuracy_score(y_test, y_pred))
@@ -56,5 +56,5 @@ plt.title("Confusion Matrix")
 plt.show()
 
 
-joblib.dump(model, "diabetes_model.pkl")
+joblib.dump(model_diabetes, "diabetes_model.pkl")
 
