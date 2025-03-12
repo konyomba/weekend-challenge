@@ -23,3 +23,17 @@ class ObesityPredictionForm(FlaskForm):
     weight = FloatField('Weight (kg)', validators=[DataRequired(), NumberRange(min=1)])
     bmi = FloatField('BMI', validators=[DataRequired(), NumberRange(min=0)])
     submit = SubmitField('Predict')
+
+class DiabetesForm(FlaskForm):
+    age = IntegerField("Age", validators=[DataRequired(),NumberRange(min=1, max=120)])
+    polyuria = BooleanField("Polyuria")
+    polydipsia = BooleanField("Polydipsia")
+    sudden_weight_loss = BooleanField("Sudden Weight Loss")
+    weakness = BooleanField("Weakness")
+    polyphagia = BooleanField("Polyphagia")
+    genital_thrush = BooleanField("Genital Thrush")
+    visual_blurring = BooleanField("Visual Blurring")
+    itching = BooleanField("Itching")
+    irritability = BooleanField("Irritability")
+    submit = SubmitField("Predict")
+

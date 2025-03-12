@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, url_for, redirect, render_template, request, flash, session
 from flask_session import Session
 from flask_wtf import CSRFProtect
-from forms import ObesityPredictionForm, RegistrationForm, LoginForm
+from forms import DiabetesForm, ObesityPredictionForm, RegistrationForm, LoginForm
 import os
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
@@ -90,6 +90,13 @@ def services():
 @app.route('/predictions')
 def predictions():
     return render_template('predictions.html')
+
+@app.route('/diabetes', methods=['GET', 'POST'])
+def diabetes_predict():
+    form = DiabetesForm()
+    prediction = None
+
+    return render_template("diabetes_predict.html", form=form, prediction=prediction)
 
 @app.route('/obesity', methods=['GET', 'POST'])
 def obesity_predict():

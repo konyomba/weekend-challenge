@@ -1,0 +1,74 @@
+{% extends "links.html" %}
+
+{% block title %}Diabetes Prediction{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+    <form method="POST" class="shadow p-4 bg-dark rounded w-50 mb-5" 
+          style="max-height: 90vh; overflow-y: auto; width: 50%; display: flex; flex-direction: column; justify-content: space-between; ">
+          
+        {{ form.hidden_tag() }} 
+        <legend class="border-bottom mb-4 text-white text-center">Diabetes Prediction</legend>
+
+        <div class="mb-2">
+            {{ form.age.label(class="form-label text-white") }}
+            {{ form.age(class="form-control") }}
+        </div>
+
+        <div class="form-check mb-2">
+            {{ form.polyuria(class="form-check-input") }}
+            {{ form.polyuria.label(class="form-check-label text-white") }}
+        </div>
+
+        <div class="form-check mb-2">
+            {{ form.polydipsia(class="form-check-input") }}
+            {{ form.polydipsia.label(class="form-check-label text-white") }}
+        </div>
+
+        <div class="form-check mb-2">
+            {{ form.sudden_weight_loss(class="form-check-input") }}
+            {{ form.sudden_weight_loss.label(class="form-check-label text-white") }}
+        </div>
+
+        <div class="form-check mb-2">
+            {{ form.weakness(class="form-check-input") }}
+            {{ form.weakness.label(class="form-check-label text-white") }}
+        </div>
+
+        <div class="form-check mb-2">
+            {{ form.polyphagia(class="form-check-input") }}
+            {{ form.polyphagia.label(class="form-check-label text-white") }}
+        </div>
+
+        <div class="form-check mb-2">
+            {{ form.genital_thrush(class="form-check-input") }}
+            {{ form.genital_thrush.label(class="form-check-label text-white") }}
+        </div>
+
+        <div class="form-check mb-2">
+            {{ form.visual_blurring(class="form-check-input") }}
+            {{ form.visual_blurring.label(class="form-check-label text-white") }}
+        </div>
+
+        <div class="form-check mb-2">
+            {{ form.itching(class="form-check-input") }}
+            {{ form.itching.label(class="form-check-label text-white") }}
+        </div>
+
+        <div class="form-check mb-2">
+            {{ form.irritability(class="form-check-input") }}
+            {{ form.irritability.label(class="form-check-label text-white") }}
+        </div>
+
+        <div class="text-center">
+            {{ form.submit(class="btn btn-primary w-100") }}
+        </div>
+
+        <div class="mt-3 text-center">
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
