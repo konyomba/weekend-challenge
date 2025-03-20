@@ -77,7 +77,7 @@ def main_page():
 
 @app.route('/about us')
 def about():
-    pass
+    return render_template('about_us.html')
 
 @app.route('/contact')
 def contact():

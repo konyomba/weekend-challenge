@@ -9,17 +9,17 @@ label_encoder = joblib.load('label_encoder.pkl')
 
 app = FastAPI()
 
-# Defining input data model
+
 class ObesityInput(BaseModel):
     Age: int
     Height: float
     Weight: float
     BMI: float
 
-# prediction endpoint
+
 @app.post("/predict/")
 def predict(input_data: ObesityInput):
-    # Converting the input data into a numpy array to match the model's expected input format
+    
     features = np.array([[input_data.Age, input_data.Height, input_data.Weight, input_data.BMI]])
 
     

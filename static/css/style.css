@@ -61,6 +61,8 @@ body{
     border-radius: 25px;
     margin-left: 20%;
     margin-right: 59px;
+    margin-top: 25px;
+    
 }
 .centered-div p h2{
   
@@ -132,5 +134,14 @@ body{
     background-color: #0056b3;
 }
 
-/*services page*/
+/*about page*/
+.pletter{
+  font-size: large;
+  font-size-adjust: inherit;
+}
+.vcolor{
+  color: crimson;
+  font-size: large;
+  font-size-adjust: inherit;
+}
 
