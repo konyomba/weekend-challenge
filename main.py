@@ -29,10 +29,10 @@ app.config['SECRET_KEY']='86cf016117fc3c20024cbece2419d4ce'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = 'wibx kvun yjpe gdgp'
-app.config['MAIL_DEFAULT_SENDER'] = app.config['MAIL_USERNAME']
+app.config['MAIL_USERNAME'] = 'konyomba@gmail.com'
 
+app.config['MAIL_PASSWORD'] = 'czqu udyd smty vyhc'
+app.config['MAIL_DEFAULT_SENDER'] = app.config['MAIL_USERNAME']
 mail = Mail(app)
 
 # FastAPI Endpoint

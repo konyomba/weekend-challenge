@@ -6,6 +6,10 @@ from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 import joblib
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.tree import plot_tree
+
 
 
 
@@ -30,13 +34,19 @@ joblib.dump(label_encoder, 'label_encoder.pkl')
 print("Label Encoder Classes:", label_encoder.classes_)  # Debugging
 print(data_cleaned.head(12))
 
+#visuals
+feature_importances = model.feature_importances_
+feature_names = features.columns
 
+# feature importance
+plt.figure(figsize=(8,5))
+sns.barplot(x=feature_importances, y=feature_names, palette="viridis")
+plt.xlabel("Feature Importance")
+plt.ylabel("Feature")
+plt.title("Feature Importance in Obesity Prediction Model")
+plt.show()
 
-
-#test and debuging
-
-#print("Received Gender Input:", gender_input)  # Debugging
-#print(data_cleaned)
-#print("Accuracy of obesity prediction model: ",accuracy*100,"%")
-#print(cleanD_data.columns)
-#print(cleanThyroid.columns)
+# Decision Tree visualization
+plt.figure(figsize=(15,10))
+plot_tree(model.estimators_[0], feature_names=features.columns, class_names=label_encoder.classes_, filled=True, rounded=True)
+plt.show()

@@ -16,7 +16,8 @@ def clean_row(data):
 
 #data preprocessing for diabetes data
 #print(data_d.isnull().sum())
-print(data_d.columns)
+print(data.columns)
+#print(data_d.columns)
 
 
 
